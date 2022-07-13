@@ -1,5 +1,5 @@
 describe("Pokedex", function () {
-  beforeEach(function () {
+  beforeEach(()=> {
     cy.visit("http://localhost:5000/");
     cy.wait(2000);
   });
