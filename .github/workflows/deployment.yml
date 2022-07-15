@@ -1,13 +1,10 @@
 name: Deployment pipeline
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   simple_deployment_pipeline:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,7 +22,8 @@ jobs:
       - name: e2e tests
         uses: cypress-io/github-action@v2
         with:
-          command: yarn test:e2e
-          start: yarn start-prod
+          command: yarn run test:e2e
+          start: yarn run start-prod
           wait-on: http://localhost:5000
+          timeout: 100
   
