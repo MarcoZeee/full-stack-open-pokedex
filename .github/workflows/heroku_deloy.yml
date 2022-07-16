@@ -13,3 +13,5 @@ jobs:
           heroku_app_name: "fs-11-pokemon"
           heroku_email: "marcoshihh@yahoo.ca"
           usedocker: false
+      - name: deploy to heroku
+        run: git push heroku main
