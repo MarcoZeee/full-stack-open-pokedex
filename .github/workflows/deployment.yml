@@ -32,6 +32,9 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "fs-11-pokemon"
           heroku_email: "marcoshihh@yahoo.ca"
+          healthcheck: "https://fs-11-pokemon.herokuapp.com/health"
+          checkstring: "ok"
+          delay: 5
           usedocker: false
       - name: deploy to heroku
         run: git push heroku main
