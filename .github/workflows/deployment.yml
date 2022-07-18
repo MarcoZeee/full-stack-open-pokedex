@@ -35,7 +35,7 @@ jobs:
           healthcheck: "https://fs-11-pokemon.herokuapp.com/health"
           checkstring: "ok"
           delay: 5
-          usedocker: false
+          rollbackonhealthcheckfailure: true
       - name: deploy to heroku
         run: git push heroku main
   
