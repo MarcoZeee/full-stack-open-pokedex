@@ -1,0 +1,48 @@
+name: Deployment pipeline
+
+on: 
+  push: 
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+    types: [opened, synchronize]
+    
+
+jobs:
+  simple_deployment_pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'yarn'
+      
+      - name: dependencies install 
+        run: yarn  
+      - name: lint
+        run: yarn eslint
+      - name: build
+        run: yarn build
+      - name: test
+        run: yarn test
+      - name: e2e tests
+        uses: cypress-io/github-action@v2
+        with:
+          command: yarn run test:e2e
+          start: yarn run start-prod
+          wait-on: http://localhost:5000
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "fs-11-pokemon"
+          heroku_email: "marcoshihh@yahoo.ca"
+          healthcheck: "https://fs-11-pokemon.herokuapp.com/health"
+          checkstring: "ok"
+          delay: 5
+          rollbackonhealthcheckfailure: true
+      - name: deploy to heroku
+        if: ${{ github.event_name == 'push' }}
+        run: git push heroku main
+  
