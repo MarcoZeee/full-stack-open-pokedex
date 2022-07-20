@@ -1,6 +1,12 @@
 name: Deployment pipeline
 
-on: [push]
+on: 
+  push: 
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+    types: [opened, synchronize]
+    
 
 jobs:
   simple_deployment_pipeline:
@@ -37,5 +43,6 @@ jobs:
           delay: 5
           rollbackonhealthcheckfailure: true
       - name: deploy to heroku
+        if: ${{ github.event_name == 'push' }}
         run: git push heroku main
   
