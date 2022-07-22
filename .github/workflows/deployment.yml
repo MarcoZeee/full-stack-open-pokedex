@@ -46,7 +46,8 @@ jobs:
   tag_release:
     runs-on: ubuntu-latest
     steps:
-      - uses: akhileshns/github-tag-action@1.36.0
-      - env:
+      - name: Bump version and push tag
+        uses: akhileshns/github-tag-action@1.36.0
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
