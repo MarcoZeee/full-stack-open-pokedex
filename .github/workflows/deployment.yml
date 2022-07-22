@@ -1,8 +1,6 @@
 name: Deployment pipeline
 
 on: 
-  push: 
-    branches: [master, main]
   pull_request:
     branches: [master, main]
     types: [opened, synchronize]
@@ -45,4 +43,11 @@ jobs:
       - name: deploy to heroku
         if: ${{ github.event_name == 'push' }}
         run: git push heroku main
+  tag_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@eca2b69f9e2c24be7decccd0f15fdb1ea5906598
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
